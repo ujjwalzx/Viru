@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>VIRU - Your Personal AI</title>
+<style>
+  body {
+    background: #0d1117;
+    color: #c9d1d9;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0; padding: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    height: 100vh;
+  }
+  header {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  #chatbox {
+    background: #161b22;
+    width: 90vw; max-width: 600px;
+    height: 350px;
+    border-radius: 10px;
+    padding: 10px;
+    overflow-y: auto;
+    box-shadow: 0 0 10px #58a6ff;
+  }
+  #user-input {
+    margin-top: 10px;
+    width: 90vw; max-width: 600px;
+    display: flex;
+  }
+  #user-text {
+    flex: 1;
+    padding: 10px;
+    border-radius: 5px 0 0 5px;
+    border: none;
+    font-size: 1rem;
+  }
+  #send-btn {
+    padding: 10px 20px;
+    background: #238636;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 0 5px 5px 0;
+    font-weight: bold;
+  }
+  .message {
+    margin: 5px 0;
+    padding: 8px 12px;
+    border-radius: 15px;
+    max-width: 70%;
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+  .user-msg {
+    background: #238636;
+    color: white;
+    align-self: flex-end;
+  }
+  .viru-msg {
+    background: #30363d;
+    color: #58a6ff;
+    align-self: flex-start;
+  }
+</style>
+</head>
+<body>
+<header>VIRU</header>
+
+<div id="chatbox"></div>
+
+<div id="user-input">
+  <input type="text" id="user-text" placeholder="Say something to VIRU..." autofocus />
+  <button id="send-btn">Send</button>
+</div>
+
+<script>
+  const chatbox = document.getElementById('chatbox');
+  const userText = document.getElementById('user-text');
+  const sendBtn = document.getElementById('send-btn');
+
+  function addMessage(text, sender) {
+    const msgDiv = document.createElement('div');
+    msgDiv.classList.add('message');
+    msgDiv.classList.add(sender === 'user' ? 'user-msg' : 'viru-msg');
+    msgDiv.textContent = text;
+    chatbox.appendChild(msgDiv);
+    chatbox.scrollTop = chatbox.scrollHeight;
+  }
+
+  function viruResponse(input) {
+    input = input.toLowerCase();
+    if(input.includes('hello') || input.includes('hi')) {
+      return "Hey bro! VIRU here. Kya haal hai?";
+    } else if(input.includes('kaise ho') || input.includes('how are you')) {
+      return "Main theek hoon, bas tumhari madad ke liye ready!";
+    } else if(input.includes('project')) {
+      return "Project SHAKTI ke liye main full ready hoon. Bata kya chahiye?";
+    } else if(input.includes('bye')) {
+      return "Chal bhai, phir milte hain. VIRU hamesha yahin hai!";
+    } else {
+      return "Bhai, ye toh VIRU ke bas se bahar hai, par main seekh raha hoon!";
+    }
+  }
+
+  sendBtn.addEventListener('click', () => {
+    const text = userText.value.trim();
+    if(text === '') return;
+    addMessage(text, 'user');
+    userText.value = '';
+    setTimeout(() => {
+      const response = viruResponse(text);
+      addMessage(response, 'viru');
+    }, 700);
+  });
+
+  userText.addEventListener('keypress', (e) => {
+    if(e.key === 'Enter') {
+      sendBtn.click();
+    }
+  });
+</script>
+</body>
+</html>
